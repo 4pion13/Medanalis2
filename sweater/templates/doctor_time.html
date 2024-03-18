@@ -1,0 +1,48 @@
+{% extends 'menu.html' %}
+
+
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="my-3 p-5 bg-body rounded shadow-sm col-5">
+            <form method="post">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h2>Select the time you want to sign up for</h2>
+                    <a href="{{ url_for('doctor_choice') }}"><button class="btn btn-dark" type="button">Go back to choosing a doctor
+                    </button></a>
+                </div>
+                <p>Monday</p>
+                <div class="d-flex flex-wrap justify-content-start">
+                    {% for row in request_data %}
+                        <button class="btn" value="{{ row.id }}"><span class="badge text-bg-secondary">{{ row.reception_time.strftime('%H:%M') }}</span></button>
+                    {% endfor %}
+                </div>
+                <p>Tuesday</p>
+                <div class="d-flex flex-wrap justify-content-start">
+                    {% for row in request_data %}
+                        <button class="btn" value="{{ row.id }}"><span class="badge text-bg-secondary">{{ row.reception_time.strftime('%H:%M') }}</span></button>
+                    {% endfor %}
+                </div>
+                <p>Wednesday</p>
+                <div class="d-flex flex-wrap justify-content-start">
+                    {% for row in request_data %}
+                        <button class="btn" value="{{ row.id }}"><span class="badge text-bg-secondary">{{ row.reception_time.strftime('%H:%M') }}</span></button>
+                    {% endfor %}
+                </div>
+                <p>Thursday</p>
+                <div class="d-flex flex-wrap justify-content-start">
+                    {% for row in request_data %}
+                        <button class="btn" value="{{ row.id }}"><span class="badge text-bg-secondary">{{ row.reception_time.strftime('%H:%M') }}</span></button>
+                    {% endfor %}
+                </div>
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+
+{% endblock %}

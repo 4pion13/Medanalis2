@@ -1,0 +1,104 @@
+{% extends 'menu.html' %}
+
+
+
+{% block content %}
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Enter the number of your symptoms</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-dark" role="alert">
+                        The more symptoms you can choose, the more accurate the diagnosis the program will give you.
+                    </div>
+
+
+                        <div class="number mb-3">
+                            <button class="number-minus bg-secondary" type="button" onclick="this.nextElementSibling.stepDown(); this.nextElementSibling.onchange();">-</button>
+                            <input type="number" min="0" value="1" max="15" name="numeric" readonly>
+                            <button class="number-plus bg-primary" type="button" onclick="this.previousElementSibling.stepUp(); this.previousElementSibling.onchange();">+</button>
+                        </div>
+
+            
+            
+                    
+
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">To send</button>
+                </div>
+            </div>
+      </form>
+    </div>
+</div>
+
+<form method="post">
+    <div class="row align-items-center justify-content-center">
+        <div class="my-3 p-5 bg-body rounded shadow-sm col-8">
+            <div class="p-5 mb-4 bg-dark rounded-3">
+            <div class="container-fluid py-5">
+                <h1 class="display-5 fw-bold text-light">Analyzer Doctor</h1>
+                <p class="col-md-8 fs-4 text-light">An innovative tool for determining a person's illness by its symptoms.</p>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">To try</button>
+            </div>
+            </div>
+
+            
+                <div class="h-100 p-5 bg-primary rounded-3">
+                    <h2 class="display-5 text-light">Doctor's appointment</h2>
+                    <p class="text-light fs-5">Make an appointment with a doctor at our private MedX clinic to provide services related to your health.</p>
+                    <a href="{{ url_for('doctor_choice') }}"><button class="btn btn-outline-light" type="button">Choose a specialist</button></a>
+                </div>
+
+
+               
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </div>
+</form>
+<div class="row align-items-center justify-content-center">
+    <div class="my-3 p-3 bg-body rounded shadow-sm col-8">
+        <div class="p-5">
+            <h1 class="display-5 fw-bold text-dark mb-4">MedX Private Clinic: the path to health and well-being</h1> 
+            <p class="text-dark fs-5">MedX Private Clinic is a modern and high–tech medical organization that offers a wide range of services in the field of diagnosis, treatment and prevention of various diseases. Our clinic was created with one simple idea – to make medical care affordable, high-quality and comfortable for every patient.</p>
+            <p class="text-dark fs-5">Our work is based on three main principles: professionalism, individual approach and openness. We strive to ensure that each patient receives all the necessary information about their health, and can also choose the most appropriate treatment method for them.</p>
+            <p class="text-dark fs-5">Today, the private clinic MedX is represented in several cities of USA and continues to develop actively. We are proud that our team consists of experienced and highly qualified specialists who are always ready to help and answer all patients' questions.</p>
+            <p class="text-dark fs-5">The main areas of work of our clinic include:</p>
+            <ul class="list-group list-group-flush mb-5">
+                <li class="list-group-item">Consultation of doctors of various specialties.</li>
+                <li class="list-group-item">Diagnosis of all types of diseases, including laboratory tests, ultrasound, X-ray, MRI and others.</li>
+                <li class="list-group-item">Treatment of a wide range of diseases such as cardiovascular, oncological, neurological and many others.</li>
+                <li class="list-group-item">Restorative medicine and rehabilitation after diseases or operations.</li>
+                <li class="list-group-item">Vaccination and immunoprophylaxis.</li>
+              </ul>
+
+
+              
+        </div>
+        
+        
+
+    </div>
+</div>
+
+<div class="row align-items-center justify-content-center">
+    <div class="my-3 p-3 bg-body rounded shadow-sm col-8">
+        <div class="p-5">
+            <h1 class="display-5 fw-bold text-dark mb-4">The private clinic, tirelessly following new technologies, uses machine learning to accurately identify various diseases and improve diagnosis</h1>
+            <button type="button" class="btn btn-primary btn-lg w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">Analyzer Doctor</button>
+        </div>
+        
+    </div>
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='/css/add.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='/css/reset.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='/css/counter.css') }}">
+    <title>Main</title>
+</head>
+
+    
+    
+    <!-- Modal -->
+    
+
+
+<body class="bg-body-tertiary">
+    <div class="nav-scroller bg-dark sticky-top shadow-sm">
+  <nav class="nav" aria-label="Secondary navigation">
+    <img src="{{ url_for('static', filename='/img/medical-symbol-svgrepo-com.svg') }}" alt="Logo" width="24" height="24" class="margin-left-10px">
+    <a class="nav-link active" aria-current="page" href="{{ url_for('mainpage') }}">MedX</a>
+    {% if status %}
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            User Menu
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+            <li><a class="dropdown-item" href="#">Personal account</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('logout') }}">Exit</a></li>
+            </ul>
+        </li>
+    {% endif %}
+  </nav>
+</div>
+    
+    {% block content %}
+
+    {% endblock %}
+
+</body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/add.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='menu.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js?cdv=40" type="text/javascript"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='counter.js') }}"></script>
+    <script type="text/javascript" src="/static/js/request.js"></script>
+    <script>
+        $('#resultbutton').attr('disabled', true);
+        $('input:text').keyup(function () {
+            var disable = false;
+                $('input:text').each(function(){
+                    if($(this).val()==""){
+                        disable = true;      
+                    }
+                });
+            $('#resultbutton').prop('disabled', disable);
+        });
+    </script>
+    
+    
+    
+</html>

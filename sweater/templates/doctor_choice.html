@@ -1,0 +1,38 @@
+{% extends 'menu.html' %}
+
+
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="my-3 p-3 bg-body rounded shadow-sm col-5">
+        <form method="post">
+
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h2>Select the doctor you want to see</h2>
+                <a href="{{ url_for('mainpage') }}"><button type="button" class="btn btn-dark">Return to the main menu</button></a>
+            </div>
+            
+            <div class="d-flex flex-wrap flex-row justify-content-around">
+                {% for row in doctor_list %}
+                    <div class="card mb-2 d-flex justify-content-between" style="width: 18rem;">
+                        <div>
+                            <img src="{{ url_for('static', filename= row.photo ) }}" class="card-img-top" alt="...">
+                        </div>
+                        <div class="p-3">
+                            <h5 class="card-title">{{ row.name }} - {{ row.post }}</h5>
+                            <button class="btn btn-primary" value="{{row.id}}" name="doctor{{ row.id }}">Choose this doctor</button>
+                        </div>
+                        
+
+                    </div>
+                {% endfor %}
+            </div>
+        </form>
+        
+
+    </div>
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,160 @@
+{% extends 'menu.html' %}
+
+
+
+{% block content %}
+
+<div class="modal fade" id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="{{ url_for('analyse_repeat') }}" method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Enter the number of your symptoms</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="number mb-3">
+                        <button class="number-minus bg-secondary" type="button" onclick="this.nextElementSibling.stepDown(); this.nextElementSibling.onchange();">-</button>
+                        <input type="number" min="0" value="1" max="15" name="numeric" readonly>
+                        <button class="number-plus bg-primary" type="button" onclick="this.previousElementSibling.stepUp(); this.previousElementSibling.onchange();">+</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <a href="{{ url_for('mainpage') }}"><button type="button" class="btn btn-secondary">Return to the main menu</button></a>
+                <button type="submit" class="btn btn-primary">To send</button>
+                </div>
+            </div>
+        </form>
+    </div>
+  </div>
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Preliminary result</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-dark" id="result"  role="alert">
+                        The more symptoms you can choose, the more accurate the diagnosis the program will give you.
+                    </div>
+                    
+                    <div class="alert alert-warning" id="result"  role="alert">
+                        This result is calculated by the program and the result may not match your diagnosis. We recommend making an appointment with a doctor.
+                    </div>
+            
+                    
+
+                </div>
+                <div class="modal-footer">
+                <a href="{{ url_for('mainpage') }}"><button type="button" class="btn btn-secondary">Return to the main menu</button></a>
+                <a href="{{ url_for('doctor_choice') }}"><button type="button" class="btn btn-primary">Make an appointment with the doctor</button></a>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Try again
+                </button>
+                </div>
+            </div>
+      </form>
+    </div>
+</div>
+
+
+
+<div class="row justify-content-center">
+    <div class="my-3 p-3 bg-body rounded shadow-sm col-5">
+        <h1 class="h3">Hello {{ name }}</h1>
+        <div class="accordion col-12" id="accordionExample">
+                <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    What is the principle of operation of the Analyzer Doctor?
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                    <strong>The Analyzer Doctor uses the data you entered to predict the diagnosis. The more symptoms you select from the list of symptoms, the more accurate the prognosis will be.</strong>
+                    </div>
+                </div>
+                </div>
+    
+                <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Important information.
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <strong>Remember that Dr. Analyzer is just a program and it can make mistakes. If you are dissatisfied with the predicted result, it is better to contact a specialist from our private clinic MedX.</strong>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+    </div>
+</div>
+
+<h1 id="myHeading"></h1>
+<div class="row justify-content-center">
+    <div class="my-3 p-3 bg-body rounded shadow-sm col-5">
+        <button type="button" class="btn btn-primary mb-1" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Change the number of symptoms
+        </button>
+        <button type="button" class="btn btn-primary mb-1" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Make an appointment with the doctor
+        </button>
+        <button type="button" class="btn btn-dark mb-1" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Return to the main menu
+        </button>
+    </div>
+</div>
+
+
+<form method="post" id="form-data">
+<div class="row justify-content-center">
+    <div class="my-3 p-3 bg-body rounded shadow-sm col-5">
+        <div class="row justify-content-center">
+            {% with messages = get_flashed_messages() %}
+                  {% if messages %}
+                    {% for message in messages %}
+                      <p>{{ message }}</p>
+                    {% endfor %}
+                  {% endif %}
+            {% endwith %}
+            {% for row in number_list %}
+                <div class="mb-2 col-12">
+                    <label for="exampleInputEmail1" class="form-label">Symptom</label>
+                    <input class="form-control form-control-lg mb-2" list="character_one" type="text" aria-label="Пример .form-control-lg" data-bs-theme="light" name="field{{ row }}" placeholder="Write down your symptom" autocomplete="off">
+                    <datalist id="character_one">
+                        {% for row in symptoms_list %}
+                            <option value="{{ row.Symptom }}"></option>
+                        {% endfor %}
+                    </datalist>
+
+                </div>
+            {% endfor %}
+
+            
+
+        </div>
+            
+        <div id="input0" class="custom-input"></div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<div class="row justify-content-center">
+    <button type="submit" class="btn btn-primary col-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop" id="resultbutton" value="send">Отправить</button>
+
+</div>
+
+</form>
+
+  
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'menu.html' %}
+
+
+
+{% block content %}
+
+
+    <div class="row vh-100 align-items-center justify-content-center">
+        <div class="my-3 p-3 bg-body rounded shadow-sm col-3">
+          <form class="needs-validation" method="post" novalidate>
+                <div class="d-flex flex-row align-items-center justify-content-between">
+                    <h1 class="h3 mb-3 fw-normal"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Registration</font></font></h1>
+                    <a href="{{ url_for('login') }}"><button type="button" class="btn-close" aria-label="Close"></button></a>
+                </div>
+
+                <div class="col-12 mb-3">
+                    <label for="validationCustom01" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="validationCustom01" name="email" required>
+                    <div class="invalid-feedback">
+                        Enter your email (example email - name@yandex.ru)
+                    </div>
+                </div>
+                <div class="col-12 mb-3">
+                    <label for="validationCustom02" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="validationCustom02" name="password" required>
+                    <div class="invalid-feedback">
+                        Enter your password!
+                    </div>
+                </div>
+                   <div class="row g-3 mb-3">
+                            <div class="col">
+                                <input type="text" class="form-control" id="validationCustom03" placeholder="Name" name="name" required>
+                            </div>
+                       <div class="col">
+                            <input type="number" class="form-control" id="validationCustom04" placeholder="Age" name="age" aria-label="Age" required>
+                       </div>
+
+
+                   </div>
+
+            <button class="btn btn-primary w-100 py-2" type="submit"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Register</font></font></button>
+            <p class="mt-5 mb-3 text-body-secondary"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">© Doctor</font></font></p>
+          </form>
+        </div>
+    </div>
+
+<script>
+    (function () {
+      'use strict'
+
+      // Получите все формы, к которым мы хотим применить пользовательские стили проверки Bootstrap
+      var forms = document.querySelectorAll('.needs-validation')
+
+      // Зацикливайтесь на них и предотвращайте отправку
+      Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+          form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+              event.preventDefault()
+              event.stopPropagation()
+            }
+
+            form.classList.add('was-validated')
+          }, false)
+        })
+    })()
+
+</script>
+
+
+{% endblock %}

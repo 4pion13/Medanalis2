@@ -1,0 +1,44 @@
+.add
+{
+  width: 75px;
+  height: 75px;
+  line-height: 75px;
+  text-align: center;
+  border: 1px dashed grey;
+  margin: 10px 0;
+}
+
+.add:hover
+{
+  cursor: pointer;
+  background-color: #360581;
+}
+
+
+.fake {
+  width: 100%;
+  height: 56px;
+}
+
+
+.form-control:focus {
+  border-color: #FF0000;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
+}
+
+
+.margin-left-10px{
+    margin-left: 10px;
+}
+
+
+
+
+.classWithPad { margin-right:100px }
+
+
+
+.modal.in {
+   display:block;
+}
+

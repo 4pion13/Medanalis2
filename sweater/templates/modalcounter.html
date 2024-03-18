@@ -1,0 +1,29 @@
+{% extends 'menu.html' %}
+
+
+
+{% block content %}
+
+<div class="row vh-100 align-items-center justify-content-center">
+    <div class="my-3 p-3 bg-body rounded shadow-sm col-3">
+        
+        <div class="alert alert-dark" role="alert">
+            Enter the number of your symptoms
+        </div>
+
+
+        <div class="number mb-3">
+            <button class="number-minus bg-secondary" type="button" onclick="this.nextElementSibling.stepDown(); this.nextElementSibling.onchange();">-</button>
+            <input type="number" min="0" value="1" max="15" readonly>
+            <button class="number-plus bg-primary" type="button" onclick="this.previousElementSibling.stepUp(); this.previousElementSibling.onchange();">+</button>
+        </div>
+        <button type="button" class="btn btn-primary btn-sm w-100">To send</button>
+    </div>
+</div>
+
+<script>
+    document.getElementById("timer02_min").addEventListener("keydown", e => e.preventDefault());
+</script>
+
+
+{% endblock %}

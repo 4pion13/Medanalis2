@@ -1,0 +1,5 @@
+outs:
+- md5: 69047793940e7438521c65ad99fffecf
+  size: 260197
+  hash: md5
+  path: all_data_disease.csv

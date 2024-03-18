@@ -1,0 +1,46 @@
+{% extends 'menu.html' %}
+
+
+
+{% block content %}
+
+
+    <div class="row vh-100 align-items-center justify-content-center">
+        <div class="my-3 p-3 bg-body rounded shadow-sm col-3">
+            {% with messages = get_flashed_messages() %}
+                  {% if messages %}
+                    {% for message in messages %}
+                      <p>{{ message }}</p>
+                    {% endfor %}
+                  {% endif %}
+          {% endwith %}
+          <form method="post">
+                <div class="d-flex flex-row align-items-center justify-content-between">
+                    <h1 class="h3 mb-3 fw-normal"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Log in</font></font></h1>
+                    <a href="{{ url_for('mainpage') }}"><button type="button" class="btn-close" aria-label="Close"></button></a>
+                </div>
+
+                <div class="form-floating mb-3">
+                  <input type="email" class="form-control" id="floatingInput" placeholder="имя@example.com" name="email">
+                  <label for="floatingInput"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Адрес электронной почты</font></font></label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="password" class="form-control" id="floatingPassword" placeholder="Пароль" name="password">
+                  <label for="floatingPassword"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Пароль</font></font></label>
+                </div>
+                   <div class="d-flex flex-row align-items-center">
+                       <p><a class="link-opacity-10-hover" href="{{ url_for('registration_user') }}">Регистрация</a></p>
+                       <p class="margin-left-10px"><a class="link-opacity-10-hover " href="#">Забыл пароль</a></p>
+                   </div>
+              <div class="alert alert-dark" role="alert">
+                  To use the Doctor, you need to log in to your account!
+              </div>
+
+            <button class="btn btn-primary w-100 py-2" type="submit"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Войти</font></font></button>
+            <p class="mt-5 mb-3 text-body-secondary"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">© Doctor</font></font></p>
+          </form>
+        </div>
+    </div>
+
+
+{% endblock %}
