@@ -264,11 +264,26 @@ def time(enctex):
     dectex = fernet.decrypt(enctex).decode()
     print(dectex)
     currentDate = datetime.datetime.now()
-    request_data = Doctor_schedule.query.filter(Doctor_schedule.reception_time >= currentDate, Doctor_schedule.doctor_id == dectex).all()
-    print(request_data)
-    print(currentDate.weekday())
+    week_now = currentDate.isocalendar()[1]
+    request_data = Doctor_schedule.query.filter(Doctor_schedule.reception_time >= currentDate, Doctor_schedule.doctor_id == dectex, Doctor_schedule.week == week_now).all()
+    request_data_two = Doctor_schedule.query.with_entities(Doctor_schedule.reception_time).filter_by(doctor_id = dectex).all()
+    list = [[],[],[],[],[],[],[]]
+    for item in request_data:
+        list[item.reception_time.weekday()].append(item)
+        #if item.reception_time.weekday() == 0:
+        #    list[0].append(item)
+
+            
+
+
+    print(list)
+
+
+
+
+
     
-    return render_template("doctor_time.html", status = True, methods=['POST','GET'], request_data=request_data)
+    return render_template("doctor_time.html", status = True, methods=['POST','GET'], list = list)
     
 
 

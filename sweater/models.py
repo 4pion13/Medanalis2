@@ -40,7 +40,7 @@ class Doctor_schedule(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     doctor_id = db.Column(db.Integer, db.ForeignKey('doctor_info.id'))
     reception_time = db.Column(db.DateTime)
-
+    week = db.Column(db.Integer)
     def __repr__(self):
         return f"{self.id}, {self.doctor_id}, {self.reception_time}"
     
