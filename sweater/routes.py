@@ -262,44 +262,51 @@ def doctor_choice():
 @app.route('/time/<enctex>/', methods=['POST','GET'])
 def time(enctex):
     dectex = fernet.decrypt(enctex).decode()
-    print(dectex)
-    currentDate = datetime.datetime.now()
+    #currentDate = datetime.datetime.now()
+    currentDate = datetime.date(2024, 3, 18)
     week_now = currentDate.isocalendar()[1]
-    request_data = Doctor_schedule.query.filter(Doctor_schedule.reception_time >= currentDate, Doctor_schedule.doctor_id == dectex, Doctor_schedule.week == week_now).all()
+    request_name = Doctor_info.query.filter_by(id = dectex).first()
+    request_data = Doctor_schedule.query.filter(Doctor_schedule.reception_time >= currentDate, Doctor_schedule.doctor_id == dectex, Doctor_schedule.week == week_now, Doctor_schedule.status == 0).all()
     request_data_two = Doctor_schedule.query.with_entities(Doctor_schedule.reception_time).filter_by(doctor_id = dectex).all()
     list = [[],[],[],[],[],[],[]]
     for item in request_data:
         list[item.reception_time.weekday()].append(item)
         #if item.reception_time.weekday() == 0:
         #    list[0].append(item)
+    if flask.request.method == 'POST':
+        for key, val in request.form.items():
+                if key.startswith("yes"):
+                    new_status = Doctor_schedule.query.filter_by(id = val).update(dict(status = 1))
+                    new_patient = Doctor_schedule.query.filter_by(id = val).update(dict(patients = current_user.id))
+                    db.session.commit()
+                    return redirect(url_for('user_menu'))
+                    
 
-            
+                    
+        
 
 
-    print(list)
 
 
 
 
 
     
-    return render_template("doctor_time.html", status = True, methods=['POST','GET'], list = list)
+    return render_template("doctor_time.html", status = True, methods=['POST','GET'], list = list, request_name = request_name)
     
 
 
 
+@app.route('/client_menu', methods=['POST','GET'])
+def user_menu():
+    request_visit_data = Doctor_schedule.query.filter_by(patients = current_user.id).all()
+    try:
+        request_doctor_data = Doctor_info.query.filter_by(id = request_visit_data[0].doctor_id).first()
+        return render_template("client_menu.html", current_user = current_user, methods=['POST','GET'], status = True, request_visit_data=request_visit_data, request_doctor_data=request_doctor_data)
+    except:
+        print('Нет')
 
-@app.route('/test', methods=['POST','GET'])
-def test():
-    return render_template("test.html", methods=['POST','GET'])
-
-@app.route('/test2', methods=['POST','GET'])
-def test_two():
-    return render_template("test2.html", methods=['POST','GET'])
-
-@app.route('/test3', methods=['POST','GET'])
-def test_three():
-    return render_template("test3.html", methods=['POST','GET'])
+    return render_template("client_menu.html", current_user = current_user, methods=['POST','GET'], status = True, request_visit_data=request_visit_data)
 
 
 

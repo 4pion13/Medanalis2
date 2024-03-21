@@ -41,8 +41,10 @@ class Doctor_schedule(db.Model):
     doctor_id = db.Column(db.Integer, db.ForeignKey('doctor_info.id'))
     reception_time = db.Column(db.DateTime)
     week = db.Column(db.Integer)
+    status = db.Column(db.Boolean)
+    patients = db.Column(db.Integer)
     def __repr__(self):
-        return f"{self.id}, {self.doctor_id}, {self.reception_time}"
+        return f"{self.id}, {self.doctor_id}, {self.reception_time}, {self.status}, {self.patients}"
     
 
 db.create_all()

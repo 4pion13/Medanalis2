@@ -7,17 +7,20 @@
 
 <div class="modal fade" id="exampleModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <form action="{{ url_for('analyse_repeat') }}" method="post">
+
+        <form method="post">
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Enter the number of your symptoms</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Enter the number of your symptoms</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <p>Do you want to make an appointment with Dr.{{ request_name.name }} at <span id="clock"></span> on <span id="date"></span>?</p>
 
                 </div>
                 <div class="modal-footer">
                 <a href="{{ url_for('mainpage') }}"><button type="button" class="btn btn-secondary">Return to the main menu</button></a>
-                <button type="submit" class="btn btn-primary" id="send" value="">To send</button>
+                <button type="submit" class="btn btn-primary" name="yes" id="send" value="">Yes</button>
                 </div>
             </div>
         </form>
@@ -26,45 +29,46 @@
 
     <div class="row justify-content-center">
         <div class="my-3 p-5 bg-body rounded shadow-sm col-5">
-            <form method="post">
                 <div class="d-flex align-items-center justify-content-between mb-3">
                     <h2>Select the time you want to sign up for</h2>
                     <a href="{{ url_for('doctor_choice') }}"><button class="btn btn-dark" type="button">Go back to choosing a doctor
                     </button></a>
                 </div>
-                <p>Monday</p>
+                <hr class="hr" />
+                <div>Monday</div>
                 <div class="d-flex flex-wrap justify-content-start">
                     {% for row in list[0] %}
-                        <button class="btn" type="button" onclick='f1(this)' value="{{ row.id }}" data-bs-toggle="modal" data-bs-target="#exampleModal"><span class="badge text-bg-secondary">{{ row.reception_time.strftime('%H:%M') }}</span></button>
+                        <button class="margin-right-10px" id="{{ row.reception_time.strftime('%A, %B, %d, %Y') }}" type="button" onclick='f1(this)' value="{{ row.id }}" data-bs-toggle="modal" data-bs-target="#exampleModal"><span class="badge text-bg-secondary">{{ row.reception_time.strftime('%H:%M') }}</span></button>
                     {% endfor %}
                 </div>
-                <p>Tuesday</p>
+                <hr class="hr" />
+                <div>Tuesday</div>
                 <div class="d-flex flex-wrap justify-content-start">
                     {% for row in list[1] %}
-                        <button class="btn" type="button" value="{{ row.id }}" onclick='f1(this)' data-bs-toggle="modal" data-bs-target="#exampleModal"><span class="badge text-bg-secondary">{{ row.reception_time.strftime('%H:%M') }}</span></button>
+                        <button class="margin-right-10px" id="{{ row.reception_time.strftime('%A, %B, %d, %Y') }}"  type="button" value="{{ row.id }}" onclick='f1(this)' data-bs-toggle="modal" data-bs-target="#exampleModal"><span class="badge text-bg-secondary">{{ row.reception_time.strftime('%H:%M') }}</span></button>
                     {% endfor %}
                 </div>
-                <p>Wednesday</p>
+                <hr class="hr" />
+                <div>Wednesday</div>
                 <div class="d-flex flex-wrap justify-content-start">
                     {% for row in list[2] %}
-                        <button class="btn" type="button" value="{{ row.id }}" onclick='f1(this)' data-bs-toggle="modal" data-bs-target="#exampleModal"><span class="badge text-bg-secondary">{{ row.reception_time.strftime('%H:%M') }}</span></button>
+                        <button class="margin-right-10px" id="{{ row.reception_time.strftime('%A, %B, %d, %Y') }}" type="button" value="{{ row.id }}" onclick='f1(this)' data-bs-toggle="modal" data-bs-target="#exampleModal"><span class="badge text-bg-secondary">{{ row.reception_time.strftime('%H:%M') }}</span></button>
                     {% endfor %}
                 </div>
-                <p>Thursday</p>
+                <hr class="hr" />
+                <div>Thursday</div>
                 <div class="d-flex flex-wrap justify-content-start">
                     {% for row in list[3] %}
-                        <button class="btn" type="button" value="{{ row.id }}" onclick='f1(this)' data-bs-toggle="modal" data-bs-target="#exampleModal"><span class="badge text-bg-secondary">{{ row.reception_time.strftime('%H:%M') }}</span></button>
+                        <button class="margin-right-10px" id="{{ row.reception_time.strftime('%A, %B, %d, %Y') }}" type="button" value="{{ row.id }}" onclick='f1(this)' data-bs-toggle="modal" data-bs-target="#exampleModal"><span class="badge text-bg-secondary">{{ row.reception_time.strftime('%H:%M') }}</span></button>
                     {% endfor %}
                 </div>
-                <p>Friday</p>
+                <hr class="hr" />
+                <div>Friday</div>
                 <div class="d-flex flex-wrap justify-content-start">
                     {% for row in list[4] %}
-                        <button class="btn" type="button" value="{{ row.id }}" onclick='f1(this)' data-bs-toggle="modal" data-bs-target="#exampleModal"><span class="badge text-bg-secondary">{{ row.reception_time.strftime('%H:%M') }}</span></button>
+                        <button class="margin-right-10px" type="button" value="{{ row.id }}" id="{{ row.reception_time.strftime('%A, %B, %d, %Y') }}" onclick='f1(this)' data-bs-toggle="modal" data-bs-target="#exampleModal"><span class="badge text-bg-secondary">{{ row.reception_time.strftime('%H:%M') }}</span></button>
                     {% endfor %}
                 </div>
-
-
-            </form>
 
         </div>
 
@@ -73,7 +77,9 @@
 
     <script>
         function f1(objButton){  
-            document.getElementById('send').setAttribute("value", objButton.value);
+            document.getElementById('send').setAttribute("value", objButton.value);   
+            document.getElementById('clock').innerHTML = objButton.textContent;
+            document.getElementById('date').innerHTML= objButton.id;
         }
     </script>
 
