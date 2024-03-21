@@ -3,6 +3,15 @@
 
 
 {% block content %}
+    {% if status_first %}
+        <div class="alert alert-success alert-dismissible fade show col-8 fixed-bottom bottom-0 start-50 translate-middle-x"  role="alert">
+            <strong>You are logged into your account!</strong> Hello {{ current_user.name }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endif %}
+
+
+
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <form method="post">

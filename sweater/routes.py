@@ -23,6 +23,31 @@ loaded_model = joblib.load('medmodel/model_cat.joblib')
 def load_user(user_id):
     return UserInfo.query.get(int(user_id))
 
+@app.route('/f1', methods=['POST','GET'])
+def main_first():
+     
+     if current_user.is_authenticated:
+        
+        status = True
+        if request.method == "POST":
+            number = request.form.get('numeric')
+            print(number)
+            enctex = fernet.encrypt(str(number).encode())
+
+            return redirect(url_for('analyse', enctex=enctex))
+        
+        return render_template("mainpage.html", methods=['POST','GET'], status = status, status_first = True)
+
+     else:
+        if request.method == "POST":
+            number = request.form.get('numeric')
+            enctex = fernet.encrypt(str(number).encode())
+            return redirect(url_for('number_login', enctex=enctex))
+
+            print(number)
+
+        return render_template("mainpage.html", methods=['POST','GET'])
+     
 @app.route('/', methods=['POST','GET'])
 def mainpage():
      
@@ -35,8 +60,7 @@ def mainpage():
 
             return redirect(url_for('analyse', enctex=enctex))
             
-
-        return render_template("mainpage.html", methods=['POST','GET'], status = status)
+        return render_template("mainpage.html", methods=['POST','GET'], status = status, status_first = False)
 
      else:
         if request.method == "POST":
@@ -102,7 +126,7 @@ def login():
 
             else:
                 login_user(user)
-                return redirect(url_for('mainpage'))
+                return redirect(url_for('main_first'))
 
         return render_template("login.html", logged_in=current_user.is_authenticated)
     
@@ -261,25 +285,32 @@ def doctor_choice():
 
 @app.route('/time/<enctex>/', methods=['POST','GET'])
 def time(enctex):
-    dectex = fernet.decrypt(enctex).decode()
-    #currentDate = datetime.datetime.now()
-    currentDate = datetime.date(2024, 3, 18)
-    week_now = currentDate.isocalendar()[1]
-    request_name = Doctor_info.query.filter_by(id = dectex).first()
-    request_data = Doctor_schedule.query.filter(Doctor_schedule.reception_time >= currentDate, Doctor_schedule.doctor_id == dectex, Doctor_schedule.week == week_now, Doctor_schedule.status == 0).all()
-    request_data_two = Doctor_schedule.query.with_entities(Doctor_schedule.reception_time).filter_by(doctor_id = dectex).all()
-    list = [[],[],[],[],[],[],[]]
-    for item in request_data:
-        list[item.reception_time.weekday()].append(item)
-        #if item.reception_time.weekday() == 0:
-        #    list[0].append(item)
-    if flask.request.method == 'POST':
-        for key, val in request.form.items():
-                if key.startswith("yes"):
-                    new_status = Doctor_schedule.query.filter_by(id = val).update(dict(status = 1))
-                    new_patient = Doctor_schedule.query.filter_by(id = val).update(dict(patients = current_user.id))
-                    db.session.commit()
-                    return redirect(url_for('user_menu'))
+    if current_user.is_authenticated:
+        dectex = fernet.decrypt(enctex).decode()
+        #currentDate = datetime.datetime.now()
+        currentDate = datetime.date(2024, 3, 18)
+        week_now = currentDate.isocalendar()[1]
+        request_name = Doctor_info.query.filter_by(id = dectex).first()
+        request_data = Doctor_schedule.query.filter(Doctor_schedule.reception_time >= currentDate, Doctor_schedule.doctor_id == dectex, Doctor_schedule.week == week_now, Doctor_schedule.status == 0).all()
+        request_data_two = Doctor_schedule.query.with_entities(Doctor_schedule.reception_time).filter_by(doctor_id = dectex).all()
+        list = [[],[],[],[],[],[],[]]
+        for item in request_data:
+            list[item.reception_time.weekday()].append(item)
+            #if item.reception_time.weekday() == 0:
+            #    list[0].append(item)
+        if flask.request.method == 'POST':
+            for key, val in request.form.items():
+                    if key.startswith("yes"):
+                        new_status = Doctor_schedule.query.filter_by(id = val).update(dict(status = 1))
+                        new_patient = Doctor_schedule.query.filter_by(id = val).update(dict(patients = current_user.id))
+                        db.session.commit()
+                        msg = Message(current_user.name, recipients=[current_user.email])
+                        msg.html = "<h2>Hello</h2>\n<p>You have an appointment with a doctor.</p>"
+                        mail.send(msg)
+                        return redirect(url_for('user_menu'))
+                    
+    else:
+        return redirect(url_for('login'))
                     
 
                     
@@ -299,15 +330,28 @@ def time(enctex):
 
 @app.route('/client_menu', methods=['POST','GET'])
 def user_menu():
-    request_visit_data = Doctor_schedule.query.filter_by(patients = current_user.id).all()
-    try:
-        request_doctor_data = Doctor_info.query.filter_by(id = request_visit_data[0].doctor_id).first()
-        return render_template("client_menu.html", current_user = current_user, methods=['POST','GET'], status = True, request_visit_data=request_visit_data, request_doctor_data=request_doctor_data)
-    except:
-        print('Нет')
+    if current_user.is_authenticated:
+        request_visit_data = Doctor_schedule.query.filter_by(patients = current_user.id).all()
+        try:
+            request_doctor_data = Doctor_info.query.filter_by(id = request_visit_data[0].doctor_id).first()
+            if flask.request.method == 'POST':
+                for key, val in request.form.items():
+                    if key.startswith("accept"):
+                        print(val)
+                        new_status = Doctor_schedule.query.filter_by(id = val).update(dict(status = 0))
+                        new_patient = Doctor_schedule.query.filter_by(id = val).update(dict(patients = 0))
+                        db.session.commit()
+                        return redirect(url_for('user_menu'))
+            return render_template("client_menu.html", current_user = current_user, methods=['POST','GET'], status = True, request_visit_data=request_visit_data, request_doctor_data=request_doctor_data)
+        except:
+            print('Нет')
 
-    return render_template("client_menu.html", current_user = current_user, methods=['POST','GET'], status = True, request_visit_data=request_visit_data)
+        
 
+
+        return render_template("client_menu.html", current_user = current_user, methods=['POST','GET'], status = True, request_visit_data=request_visit_data)
+    else:
+        return redirect(url_for('login'))
 
 
 @app.route('/logout')
